@@ -60,6 +60,7 @@ $ go run cmd/board/main.go
 
 ## Bonus
 * Use only errors by behaviour
+* Use table driven tests
 * Get >90% coverage into `parser` package
 * Print output of all files into a `html file`
 
