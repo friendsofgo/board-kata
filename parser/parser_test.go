@@ -14,6 +14,7 @@ func TestParser(t *testing.T) {
 		"testAnotherHashtag": {"#goGoPowerRangers", "<a href='https://fogower.com/hash/goGoPowerRangers'>#goGoPowerRangers</a>"},
 		"testOnlyMention":    {"@friendsofgotech", "<a href='https://fogower.com/friendsofgotech'>@friendsofgotech</a>"},
 		"testUrlToLink":      {"http://www.google.com", "<a href='http://www.google.com'>http://www.google.com</a>"},
+		"testHttpsUrlToLink": {"https://www.google.com", "<a href='https://www.google.com'>https://www.google.com</a>"},
 		"testMultipleWords":  {"hola http://www.google.com #goGoPowerRangers", "hola <a href='http://www.google.com'>http://www.google.com</a> <a href='https://fogower.com/hash/goGoPowerRangers'>#goGoPowerRangers</a>"},
 	}
 
