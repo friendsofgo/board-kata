@@ -3,39 +3,28 @@ package parser_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/friendsofgo/board-kata/parser"
 )
 
-func TestPLainText(t *testing.T) {
-	text, _ := parser.Parse("cucu")
-	assert.Equal(t, "cucu", text, "plain text not valid")
-}
+func TestParser(t *testing.T) {
 
-func TestOnlyHashtag(t *testing.T) {
-	text, _ := parser.Parse("#golang")
-	assert.Equal(t, "<a href='https://fogower.com/hash/golang'>#golang</a>", text)
-}
+	tests := map[string]struct{ textToParse, expected string }{
+		"plainText":          {"cucu", "cucu"},
+		"testOnlyHashtag":    {"#golang", "<a href='https://fogower.com/hash/golang'>#golang</a>"},
+		"testAnotherHashtag": {"#goGoPowerRangers", "<a href='https://fogower.com/hash/goGoPowerRangers'>#goGoPowerRangers</a>"},
+		"testOnlyMention":    {"@friendsofgotech", "<a href='https://fogower.com/friendsofgotech'>@friendsofgotech</a>"},
+		"testUrlToLink":      {"http://www.google.com", "<a href='http://www.google.com'>http://www.google.com</a>"},
+		"testMultipleWords":  {"hola http://www.google.com #goGoPowerRangers", "hola <a href='http://www.google.com'>http://www.google.com</a> <a href='https://fogower.com/hash/goGoPowerRangers'>#goGoPowerRangers</a>"},
+	}
 
-func TestAnotherHashtag(t *testing.T) {
-	text, _ := parser.Parse("#goGoPowerRangers")
-	assert.Equal(t, "<a href='https://fogower.com/hash/goGoPowerRangers'>#goGoPowerRangers</a>", text)
-}
-
-func TestOnlyMention(t *testing.T) {
-	text, _ := parser.Parse("@friendsofgotech")
-	assert.Equal(t, "<a href='https://fogower.com/friendsofgotech'>@friendsofgotech</a>", text)
-}
-
-func TestChangeUrlToLink(t *testing.T) {
-	text, _ := parser.Parse("http://www.google.com")
-	assert.Equal(t, "<a href='http://www.google.com'>http://www.google.com</a>", text)
-}
-
-func TestMultipleWords(t *testing.T) {
-	text, _ := parser.Parse("hola http://www.google.com #goGoPowerRangers")
-	assert.Equal(t, "hola <a href='http://www.google.com'>http://www.google.com</a> <a href='https://fogower.com/hash/goGoPowerRangers'>#goGoPowerRangers</a>", text)
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			text, _ := parser.Parse(tc.textToParse)
+			if text != tc.expected {
+				t.Fatalf("wrong parse expected %s got %s", tc.expected, text)
+			}
+		})
+	}
 }
 
 func TestEmptyString(t *testing.T) {
