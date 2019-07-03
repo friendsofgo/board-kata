@@ -5,6 +5,7 @@ import (
 	"log"
 
 	board "github.com/friendsofgo/board-kata"
+	"github.com/friendsofgo/board-kata/parser"
 )
 
 func main() {
@@ -13,8 +14,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// TODO: Parse each message
-	fmt.Println(msg)
+	// Parse each message
+	for _, line := range msg {
+		translated := parser.Parse(line)
+		fmt.Println(translated)
+	}
 
 	//TODO: Print output into an html file
 
